@@ -191,17 +191,7 @@ with tab2:
     else:
         st.error("No market data found to run simulation. Please check your ticker.")
 
-st.divider()
-st.header("🏢 Institutional Research & Greeks")
 
-# 1. Strategy Greeks Table
-st.subheader("📊 Position Greeks")
-col_g1, col_g2, col_g3, col_g4 = st.columns(4)
-
-# Function to calculate Delta (for the table)
-def get_delta(S, K, T, r, sigma, type="call"):
-    d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
-    return norm.cdf(d1) if type == "call" else norm.cdf(d1) - 1
 
 
 
