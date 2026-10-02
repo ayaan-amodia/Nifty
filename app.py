@@ -203,10 +203,7 @@ def get_delta(S, K, T, r, sigma, type="call"):
     d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
     return norm.cdf(d1) if type == "call" else norm.cdf(d1) - 1
 
-delta_val = get_delta(spot, strike, T, 0.07, iv, "call")
-theta_val = -(spot * norm.pdf((np.log(spot/strike)+(0.07+0.5*iv**2)*T)/(iv*np.sqrt(T))) * iv) / (2 * np.sqrt(T))
 
-col_g1.metric("Net Delta", f"{delta_val:.3f}", help="Directional Risk")
 col_g2.metric("Net Theta", f"{theta_val/365:.2f}", help="Daily Time Decay")
 col_g3.metric("Max Profit", "Calculated at Expiry")
 col_g4.metric("Margin Required", "Approx ₹1.2L (Selling)")
