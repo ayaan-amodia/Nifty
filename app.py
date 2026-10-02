@@ -127,24 +127,7 @@ st.sidebar.metric("S&P 500 (US)", f"{us_market['Close'].iloc[-1]:.2f}", f"{chang
 precision = st.sidebar.select_slider("Simulation Rigor", options=["Standard", "High", "Institutional"], value="Standard")
 iterations = {"Standard": 1000, "High": 5000, "Institutional": 10000}[precision]
 
-# --- STEP 1: Define the price range for the chart ---
-sT = np.linspace(strike * 0.85, strike * 1.15, 100)
 
-# --- STEP 2: Calculate Payoff for EVERY strategy ---
-if strategy == "Long Straddle":
-    # Buy Call + Buy Put
-    payoff = (np.maximum(sT - strike, 0) - ce_price) + (np.maximum(strike - sT, 0) - pe_price)
-
-elif strategy == "Bull Call Spread":
-    # Buy ATM Call, Sell OTM Call (assuming 100 point spread)
-    strike_high = strike + 100
-    ce_price_high = black_scholes(spot, strike_high, T, 0.07, iv, "call")
-    payoff = (np.maximum(sT - strike, 0) - ce_price) - (np.maximum(sT - strike_high, 0) - ce_price_high)
-
-elif strategy == "Iron Condor":
-    # Simplified Iron Condor Payoff
-    s1, s2, s3, s4 = strike-200, strike-100, strike+100, strike+200
-    payoff = (np.maximum(sT-s1,0) - np.maximum(sT-s2,0) - np.maximum(s3-sT,0) + np.maximum(s4-sT,0))
     # --- ADD THIS SAFETY BLOCK ABOVE LINE 151 ---
 # Ensure 'strike', 'T', and 'iv' also have fallback values
 try: _ = strike
